@@ -11,9 +11,32 @@ const firebaseConfig = {
     appId: "1:742323628419:web:cc7d6e17361c62b512aeb6",
     measurementId: "G-VV79RBZ3JP"
   };
+export  const  creteUserProfileDocument = async (userAuth,otherData)=>{
+  if(!userAuth) {
+    return;
+  }
+  const userRef = firestore.doc(`users/${userAuth.uid}`)
+  const snapChot = await userRef.get();
+
+  if(!snapChot.exists){
+    const {displayName ,email} = userAuth ;
+    const createdAt = new Date();
+    try {
+      await userRef.set({
+        displayName ,email,createdAt,...otherData
+      })
+    }catch(error){
+      console.log(error.message)
+    }
+
+  }
+  return userRef;
+}   
 firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
+const firestore = firebase.firestore();
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({prompt:'select_account'});
 export const signInWithGoogle = ()=>auth.signInWithPopup(provider);
+
 export default firebase
