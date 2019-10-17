@@ -11,27 +11,56 @@ const firebaseConfig = {
     appId: "1:742323628419:web:cc7d6e17361c62b512aeb6",
     measurementId: "G-VV79RBZ3JP"
   };
-export  const  creteUserProfileDocument = async (userAuth,otherData)=>{
-  if(!userAuth) {
-    return;
-  }
-  const userRef = firestore.doc(`users/${userAuth.uid}`)
-  const snapChot = await userRef.get();
+// export  const  creteUserProfileDocument = async (userAuth,otherData)=>{
+//   if(!userAuth) {
+//     return;
+//   }
+//   const userRef = firestore.doc(`users/${userAuth.uid}`)
+//   const snapChot = await userRef.get();
 
-  if(!snapChot.exists){
-    const {displayName ,email} = userAuth ;
+//   if(!snapChot.exists){
+//     const {email,displayName} = userAuth ;
+//     // console.log(email,11111111111111111111111111)
+//     // console.log(userAuth,2222222222222)
+
+//     const createdAt = new Date();
+//     try {
+//       await userRef.set({
+//         displayName ,email,createdAt,...otherData
+//       })
+//     }catch(error){
+//       console.log(error.message)
+//     }
+
+//   }
+//   return userRef;
+// }   
+
+
+export const creteUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+
+  const snapShot = await userRef.get();
+
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
     const createdAt = new Date();
     try {
       await userRef.set({
-        displayName ,email,createdAt,...otherData
-      })
-    }catch(error){
-      console.log(error.message)
+        displayName,
+        email,
+        createdAt,
+        ...additionalData
+      });
+    } catch (error) {
+      console.log('error creating user', error.message);
     }
-
   }
+
   return userRef;
-}   
+};
 firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 const firestore = firebase.firestore();
