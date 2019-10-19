@@ -8,5 +8,5 @@ import App from './App';
 
 import store from './redux/store';
 
-ReactDOM.render(<Provider stoer ={store}> <BrowserRouter>  <App /> </BrowserRouter> </Provider>, document.getElementById('root'));
+ReactDOM.render(<Provider store ={store}> <BrowserRouter>  <App /> </BrowserRouter> </Provider>, document.getElementById('root'));
 
