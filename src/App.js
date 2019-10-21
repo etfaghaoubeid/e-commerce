@@ -10,6 +10,7 @@ import Header from './components/header/header.component';
 import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up';
 import {auth ,creteUserProfileDocument} from "./firebase/firebase.util"
 import {getCurrentUser} from "./redux/user/user.actions"
+
 class App extends React.Component {
   constructor(){
     super()
