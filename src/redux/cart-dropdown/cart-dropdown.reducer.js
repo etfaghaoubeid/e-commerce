@@ -1,5 +1,5 @@
 import {TOGGLE_CART,ADD_ITEM, REMOVE_ITEM,INCRESE_QUANTITY,DECRESE_QUANTITY} from "./cart-dropdown.types"
-
+import {addItemValidatore} from "./cart.utils"
 const initState = {
     isOpen:false,
     cartItems:[]
@@ -15,7 +15,7 @@ const initState = {
         case ADD_ITEM :
             return{
                 ...state,
-                cartItems: [...state.cartItems,action.payload]
+                cartItems: addItemValidatore(state.cartItems , action.payload)
             }
         case REMOVE_ITEM :
             return{

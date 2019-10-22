@@ -6,7 +6,9 @@ const CartDropdown = ({ items }) => (
   <div className="cart-dropdown">
     <div className="cart-items">
       {items.map(element => (
-        <h1>{element.name}</h1>
+        <h1>
+          {element.name} ||{element.quantity}
+        </h1>
       ))}
     </div>
     <CustomButton> Check Out</CustomButton>
