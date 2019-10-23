@@ -5,8 +5,8 @@ import "./cart-dropdown.styles.scss";
 import CustomButton from "../custum-button/custom-button.component";
 import CartItem from "../cart-item/cart-item.component";
 import { selectCartItems } from "../../redux/cart-dropdown/cart-dropdown.selector";
-const CartDropdown = ({ items, history, ...otherProps }) => {
-  console.log(otherProps);
+import { toggleCart } from "../../redux/cart-dropdown/cart.dropdown.actions";
+const CartDropdown = ({ items, history, toggleCart, ...otherProps }) => {
   return (
     <div className="cart-dropdown">
       <div className="cart-items">
@@ -16,7 +16,12 @@ const CartDropdown = ({ items, history, ...otherProps }) => {
           <span className="empty-message"> Your Cart is empty </span>
         )}
       </div>
-      <CustomButton onClick={() => history.push("/checkout")}>
+      <CustomButton
+        onClick={() => {
+          history.push("/checkout");
+          toggleCart();
+        }}
+      >
         {" "}
         Check Out
       </CustomButton>
@@ -26,9 +31,12 @@ const CartDropdown = ({ items, history, ...otherProps }) => {
 const mapStateToProps = state => ({
   items: selectCartItems(state)
 });
+const mapDispatchToprops = dispatch => ({
+  toggleCart: () => dispatch(toggleCart())
+});
 export default withRouter(
   connect(
     mapStateToProps,
-    null
+    mapDispatchToprops
   )(CartDropdown)
 );
