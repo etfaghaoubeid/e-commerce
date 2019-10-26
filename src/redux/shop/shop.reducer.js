@@ -1,7 +1,7 @@
 
 import shopCollection from "./shop.data"
 const initState={
-    collections: shopCollection
+    collections: shopCollection,
 
 }
 const shopReducer = (state= initState, action)=>{
