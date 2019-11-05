@@ -36,6 +36,17 @@ const firebaseConfig = {
 //   return userRef;
 // }   
 
+export const addCollectionAndDocuments = async (collectionKey , objectToAdd)=>{
+  const collectionRef = firestore.collection(collectionKey)
+  const batch = firestore.batch()
+  objectToAdd.forEach(obj =>{
+    let newObj = collectionRef.doc()
+    batch.set(newObj,obj)
+  })
+  return await batch.commit()
+  
+}
+
 
 export const creteUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
