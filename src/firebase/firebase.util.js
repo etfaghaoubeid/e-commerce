@@ -46,36 +46,52 @@ export const addCollectionAndDocuments = async (collectionKey , objectToAdd)=>{
   return await batch.commit()
   
 }
+export const convertCollectionSnapshotToMap = (collections) =>{
+  const transformedCollection = collections.docs.map(doc=>{
+    const {title, items} =  doc.data();
+    return {
+      routName: encodeURI(title.toLowerCase()),
+      id:doc.id,
+      title, 
+      items
+    }
+
+  })
+return transformedCollection.reduce((accumulator , collection)=>{
+        accumulator[collection.title.toLowerCase()] = collection;
+        return accumulator;
+}, {})
+}
 
 
 export const creteUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
 
-  const userRef = firestore.doc(`users/${122333}`);
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
   console.log(userRef);
 
-  // const snapShot = await userRef.get();
+  const snapShot = await userRef.get();
 
-  // if (!snapShot.exists) {
-  //   const { displayName, email } = userAuth;
-  //   const createdAt = new Date();
-  //   try {
-  //     await userRef.set({
-  //       displayName,
-  //       email,
-  //       createdAt,
-  //       ...additionalData
-  //     });
-  //   } catch (error) {
-  //     console.log('error creating user', error.message);
-  //   }
-  // }
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData
+      });
+    } catch (error) {
+      console.log('error creating user', error.message);
+    }
+  }
 
-  // return userRef;
+  return userRef;
 };
 firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
-const firestore = firebase.firestore();
+export const firestore = firebase.firestore();
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({prompt:'select_account'});
 export const signInWithGoogle = ()=>auth.signInWithPopup(provider);

@@ -15,7 +15,7 @@ import {selectCurrentUser} from "./redux/user/user.selectors"
 import Chekout from './pages/checkout/checkout.component';
 class App extends React.Component {
   constructor(){
-    super()
+    super() 
     this.state  = {
       currentUser:null,
     }
@@ -36,7 +36,7 @@ class App extends React.Component {
       }else{
         setCurrentUser(userAuth)
         //console.log(this.state)
-        addCollectionAndDocuments('collection' ,collectionArray.map(({title,items})=>({title,items})))
+        addCollectionAndDocuments('collections'   ,collectionArray.map(({title,items})=>({title,items})))
       }
     
     })
